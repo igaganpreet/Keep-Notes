@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 
-function CreateArea() {
-  const [noteInput, setNoteInput] = useState({ title: "", noteContent: "" });
+function CreateArea(props) {
+  const [noteInput, setNoteInput] = useState({ title: "", content: "" });
 
   function handleChange(event) {
     const { name, value } = event.target;
     if (name === "title") {
       setNoteInput((prevValue) => {
         return {
-          title: event.target.value,
-          noteContent: prevValue.noteContent
+          title: value,
+          content: prevValue.content
         };
       });
     } else if (name === "content") {
       setNoteInput((prevValue) => {
         return {
-          title: prevValue.noteContent,
-          noteContent: event.target.value
+          title: prevValue.title,
+          content: value
         };
       });
     }
 
-    console.log(event.target.value);
+    // console.log(noteInput);
   }
 
   return (
@@ -31,16 +31,22 @@ function CreateArea() {
           onChange={handleChange}
           name="title"
           placeholder="Title"
-          // value={noteInput.title}
+          value={noteInput.title}
         />
         <textarea
           onChange={handleChange}
           name="content"
           placeholder="Take a note..."
           rows="3"
-          // value={noteInput.noteContent}
+          value={noteInput.content}
         />
-        <button>Add</button>
+        <button
+          onClick={(event) => {
+            return props.onAdd(noteInput, event);
+          }}
+        >
+          Add
+        </button>
       </form>
     </div>
   );
